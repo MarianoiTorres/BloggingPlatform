@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "awstulipan",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authawstulipan3b1a69fa",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
