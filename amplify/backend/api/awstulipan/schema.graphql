@@ -7,3 +7,8 @@ type Post @model @auth(rules: [{allow: owner, ownerField: "username"}, {allow: p
   username: String @index(name: "postsByUsername", queryField: "postsByUsername")
   coverImage: String
 }
+
+type File @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+}

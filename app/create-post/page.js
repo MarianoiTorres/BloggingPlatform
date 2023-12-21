@@ -30,10 +30,7 @@ const CreatePost = () => {
         const id = uuid()
         post.id = id
 
-        const fileName = `${image.name}_${uuid()}`
-        console.log(fileName);
-        post.coverImage = fileName
-
+        console.log('ESTE ES CREATEPOST' + post);
         const result = await client.graphql({
             query: createPost,
             variables: {
@@ -52,10 +49,13 @@ const CreatePost = () => {
     const handleChange = (e) => {
         if (e?.target?.files) {
             const file = e.target.files[0];
+            const fileName = `${file.name}_${uuid()}`
+            post.coverImage = fileName
             uploadData({
-                key: 'hola',
+                key: fileName,
                 data: file
             });
+            console.log(file);
             setImage(file)
         }
     }
