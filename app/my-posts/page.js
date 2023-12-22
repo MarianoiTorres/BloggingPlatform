@@ -7,32 +7,24 @@ import { postsByUsername } from "@/src/graphql/queries";
 import { deletePost as deletePostMutation } from "@/src/graphql/mutations";
 import Markdown from "react-markdown"
 import 'easymde/dist/easymde.min.css'
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUserPost, getUserPostsAsync } from "@/redux/features/userSlice";
 
 const MyPosts = () => {
-    const [posts, setPosts] = useState([])
+
+    const posts = useSelector(state => state.userReducer.userPosts)
+    const dispatch = useDispatch()
+    
     useEffect(() => {
         fetchPosts()
     }, [])
 
     const fetchPosts = async () => {
-        const { username, userId } = await getCurrentUser()
-
-        const usernameToGet = userId + "::" + username
-        /* Cuando crea un posteo une el userId y el username para tener una mejor unicidad */
-        const postData = await client.graphql({
-            query: postsByUsername, variables: { username: usernameToGet }
-        })
-        console.log(postData.data);
-        setPosts(postData.data.postsByUsername.items)
+        dispatch(getUserPostsAsync())
     }
 
     const deletePost = async (id) => {
-        await client.graphql({
-            query: deletePostMutation,
-            variables: { input: { id } },
-            authMode: "userPool"
-        })
-        fetchPosts()
+        dispatch(deleteUserPost(id))
     }
 
     return (
